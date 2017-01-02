@@ -1,10 +1,10 @@
 package main
 
 import (
+	"bufio"
+	"flag"
 	"fmt"
 	"log"
-	"flag"
-	"bufio"
 	"os"
 	"sort"
 
@@ -14,20 +14,20 @@ import (
 type sortRune []byte
 
 func (s sortRune) Less(i, j int) bool {
-    return s[i] < s[j]
+	return s[i] < s[j]
 }
 
 func (s sortRune) Swap(i, j int) {
-    s[i], s[j] = s[j], s[i]
+	s[i], s[j] = s[j], s[i]
 }
 
 func (s sortRune) Len() int {
-    return len(s)
+	return len(s)
 }
 
 func UniqueLetters(word string) sortRune {
-	var letters sortRune 
-	for n:=0; n<len(word); n++ {
+	var letters sortRune
+	for n := 0; n < len(word); n++ {
 		if word[n] == '\'' {
 			continue
 		}
@@ -51,7 +51,7 @@ func ParseDictionary(path string) map[string][]string {
 	dict := make(map[string][]string)
 
 	file, err := os.Open(path)
-	if err != nil  {
+	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
@@ -65,20 +65,19 @@ func ParseDictionary(path string) map[string][]string {
 			continue
 		}
 		dict[letters] = append(dict[letters], word)
-	}	
+	}
 	return dict
 }
-
 
 func main() {
 	var dictfile, outer, center string
 
-	flag.StringVar(&dictfile, "dict", "", "dictionary file")	
+	flag.StringVar(&dictfile, "dict", "", "dictionary file")
 	flag.StringVar(&outer, "outer", "", "outer letters")
 	flag.StringVar(&center, "center", "", "center letter")
 	flag.Parse()
 
-	if len(outer) != 6 ||  len(center) != 1 {
+	if len(outer) != 6 || len(center) != 1 {
 		flag.Usage()
 		return
 	}
@@ -94,7 +93,7 @@ func main() {
 			results := d[string(c2)]
 			for _, w := range results {
 				fmt.Println(w)
-			}				
+			}
 		}
 	}
 }
